@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "chrysalis"
-version = "0.1.0"
+dynamic = ["version"]
 description = "AI Agent skill self-evolution engine — let your agent learn from experience"
 readme = "README.md"
 license = "MIT"
@@ -16,6 +16,15 @@ dependencies = [
 
 [project.scripts]
 chrysalis = "chrysalis.mcp.server:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.hatch.version]
+path = "src/chrysalis/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/chrysalis"]

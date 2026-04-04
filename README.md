@@ -36,38 +36,45 @@ Chrysalis 作为 **MCP Server** 运行。宿主 Agent（Claude Code、Codex 等�
 
 ## 安装
 
+### Quick start (推荐)
+
 ```bash
-git clone https://github.com/yourusername/chrysalis.git
+# uvx — 零安装，直接运行
+uvx chrysalis
+
+# 或 pipx
+pipx run chrysalis
+```
+
+### 从源码安装
+
+```bash
+git clone https://github.com/outan/chrysalis.git
 cd chrysalis
+python -m venv .venv && source .venv/bin/activate
 pip install -e .
 ```
 
 ## 配置到 Claude Code
 
-在 `~/.claude/settings.json` 中添加：
+使用 `claude mcp add` 命令注册（**不要**手动编辑 `settings.json`，详见 [排障指南](docs/troubleshooting.md)）：
 
-```json
-{
-  "mcpServers": {
-    "chrysalis": {
-      "type": "stdio",
-      "command": "chrysalis"
-    }
-  }
-}
+```bash
+# 推荐：uvx（无需管理虚拟环境）
+claude mcp add chrysalis -- uvx chrysalis
+
+# 或：从源码安装后，指定 venv 中的 binary
+claude mcp add chrysalis -- /path/to/chrysalis/.venv/bin/chrysalis
+
+# 全局可用（所有项目）
+claude mcp add --scope user chrysalis -- uvx chrysalis
 ```
 
-如果使用虚拟环境：
+验证连接：
 
-```json
-{
-  "mcpServers": {
-    "chrysalis": {
-      "type": "stdio",
-      "command": "/path/to/chrysalis/.venv/bin/chrysalis"
-    }
-  }
-}
+```bash
+claude mcp list | grep chrysalis
+# chrysalis: ... - ✓ Connected
 ```
 
 ## 数据存储

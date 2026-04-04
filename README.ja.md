@@ -36,38 +36,45 @@ Chrysalisは**MCPサーバー**として動作します。ホストエージェ�
 
 ## インストール
 
+### クイックスタート（推奨）
+
 ```bash
-git clone https://github.com/yourusername/chrysalis.git
+# uvx — インストール不要、即実行
+uvx chrysalis
+
+# または pipx
+pipx run chrysalis
+```
+
+### ソースからインストール
+
+```bash
+git clone https://github.com/outan/chrysalis.git
 cd chrysalis
+python -m venv .venv && source .venv/bin/activate
 pip install -e .
 ```
 
 ## Claude Codeへの設定
 
-`~/.claude/settings.json` に追加：
+`claude mcp add` コマンドで登録します（`settings.json` を手動編集**しないでください**。詳しくは[トラブルシューティング](docs/troubleshooting.md)を参照）：
 
-```json
-{
-  "mcpServers": {
-    "chrysalis": {
-      "type": "stdio",
-      "command": "chrysalis"
-    }
-  }
-}
+```bash
+# 推奨：uvx（仮想環境の管理不要）
+claude mcp add chrysalis -- uvx chrysalis
+
+# または：ソースからインストール後、venv内のbinaryを指定
+claude mcp add chrysalis -- /path/to/chrysalis/.venv/bin/chrysalis
+
+# グローバル設定（全プロジェクトで利用可能）
+claude mcp add --scope user chrysalis -- uvx chrysalis
 ```
 
-仮想環境を使用する場合：
+接続を確認：
 
-```json
-{
-  "mcpServers": {
-    "chrysalis": {
-      "type": "stdio",
-      "command": "/path/to/chrysalis/.venv/bin/chrysalis"
-    }
-  }
-}
+```bash
+claude mcp list | grep chrysalis
+# chrysalis: ... - ✓ Connected
 ```
 
 ## データ保存
